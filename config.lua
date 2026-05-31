@@ -77,6 +77,7 @@ BridgeConfig.Medical = 'qbx_medical'
         - aty_dispatch
         - codem-dispatch
         - core_dispatch
+        - kartik-mdt
 ]]
 ---@type AvailableDispatches
 BridgeConfig.Dispatch = "ps-dispatch"
