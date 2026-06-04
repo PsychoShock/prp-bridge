@@ -13,7 +13,7 @@ function dispatch.sendAlert(src, jobs, coords, data, blip, alertFlash)
             priority = "high",
             code = data.code,
             title = data.title,
-            description = data.description,
+            description = data.description or data.message or data.text or data.title or "Dispatch alert",
             location = {
                 label = blip.text or data.title,
                 coords = vec2(coords.x, coords.y),
