@@ -11,6 +11,7 @@ BridgeConfig.Debug = true
 --[[
     Available Frameworks:
         - qbx_core
+        - ox_core
         - qb-core
         - es_extended
         - nd_core

@@ -142,6 +142,7 @@ Open `types/config.lua` and add the new value to the `BridgeFrameWork` alias:
 ```lua
 ---@alias BridgeFrameWork
 ---| "qbx_core"
+---| "ox_core"
 ---| "qb-core"
 ---| "es_extended"
 ---| "nd_core"

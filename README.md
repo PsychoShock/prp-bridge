@@ -24,7 +24,7 @@ BridgeConfig = {
     Debug        = false,  -- enable debug logging
 
     -- Framework selection
-    FrameWork  = "qbx_core",         -- qbx_core | qb-core | es_extended | nd_core
+    FrameWork  = "qbx_core",         -- qbx_core | ox_core | qb-core | es_extended | nd_core
 
     -- External systems
     Inventory   = "ox_inventory",    -- ox_inventory | origen_inventory | tgiann_inventory
@@ -75,7 +75,7 @@ The `modules/` folder contains implementations for external resources. Each cate
 
 ```
 modules/
-├── fw/          # frameworks  (qbx_core, qb-core, es_extended, nd_core)
+├── fw/          # frameworks  (qbx_core, ox_core, qb-core, es_extended, nd_core)
 ├── inv/         # inventories (ox_inventory, origen_inventory, tgiann_inventory)
 ├── target/      # targeting   (ox_target, qb-target, sleepless_interact)
 ├── dispatch/    # dispatch    (ps-dispatch, origen_police, cd_dispatch, rcore_dispatch)
