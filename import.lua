@@ -38,6 +38,7 @@ local moduleToDependency = {
     minigames = BridgeConfig.Minigames,
     vkeys = BridgeConfig.VehicleKeys,
     vfuel = BridgeConfig.VehicleFuel,
+    voice = BridgeConfig.Voice,
 }
 
 local function loadModule(self, module)
@@ -68,6 +69,29 @@ local function loadModule(self, module)
         end
 
         local result = fn()
+
+        if module == "fw" and context == "client" and type(result) == "table" then
+            local pedStatusChunk = LoadResourceFile(prpBridge, "modules/fw/shared/pedStatus.lua")
+
+            if pedStatusChunk then
+                local pedFn, pedErr = load(pedStatusChunk, "@@prp-bridge/modules/fw/shared/pedStatus.lua")
+
+                if pedFn then
+                    local pedGetters = pedFn()
+
+                    if pedGetters then
+                        for key, getter in pairs(pedGetters) do
+                            if result[key] == nil then
+                                result[key] = getter
+                            end
+                        end
+                    end
+                elseif pedErr then
+                    lib.print.error("Failed to load fw pedStatus:", pedErr)
+                end
+            end
+        end
+
         self[module] = result or noop
         return self[module]
     end

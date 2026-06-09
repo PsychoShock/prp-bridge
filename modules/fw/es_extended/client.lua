@@ -36,6 +36,20 @@ AddEventHandler("esx_status:onTick", function(data)
     end
 
     fetchStress()
+
+    if bridge.name == bridge.currentResource then
+        if hunger then
+            TriggerEvent('prp-bridge:client:statusChanged', 'hunger', hunger)
+        end
+
+        if thirst then
+            TriggerEvent('prp-bridge:client:statusChanged', 'thirst', thirst)
+        end
+
+        if stress then
+            TriggerEvent('prp-bridge:client:statusChanged', 'stress', stress)
+        end
+    end
 end)
 
 ---@return number
@@ -237,6 +251,16 @@ function fw.getCharacterName()
     end
 
     return ("%s %s"):format(player.firstName, player.lastName)
+end
+
+if bridge.name == bridge.currentResource then
+    RegisterNetEvent('esx:playerLoaded', function()
+        TriggerEvent('prp-bridge:client:playerLoad')
+    end)
+
+    RegisterNetEvent('esx:onPlayerLogout', function()
+        TriggerEvent('prp-bridge:client:playerUnload')
+    end)
 end
 
 return fw

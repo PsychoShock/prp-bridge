@@ -20,6 +20,7 @@ local moduleToDependency = {
     minigames = BridgeConfig.Minigames,
     vkeys     = BridgeConfig.VehicleKeys,
     vfuel     = BridgeConfig.VehicleFuel,
+    voice     = BridgeConfig.Voice,
 }
 ```
 
@@ -28,7 +29,7 @@ For each registered category, `import.lua` loads the matching file from `modules
 - **Adding a new implementation to an existing category** (e.g. a new framework under `fw`): no changes to `import.lua` are needed - just update `BridgeConfig` to point to the new folder.
 - **Adding a completely new category**: you must also register it in `moduleToDependency` and add the corresponding key to `BridgeConfig`.
 
-Every module file must return a table at the end (`return module`). The returned table becomes part of the global `bridge` table - for example `bridge.fw`, `bridge.inv`, `bridge.target`.
+Every module file must return a table at the end (`return module`). The returned table becomes part of the global `bridge` table - for example `bridge.fw`, `bridge.inv`, `bridge.target`, `bridge.voice`.
 
 If a module needs code shared between the client and the server, it can include a `shared.lua` file that is prepended before `client.lua` / `server.lua`.
 
@@ -109,6 +110,30 @@ return fw
 ```lua
 local fw = {}
 
+function fw.getHunger()
+    return 100
+end
+
+function fw.getThirst()
+    return 100
+end
+
+function fw.getStress()
+    return 0
+end
+
+function fw.setStatus(statusType, value)
+    if statusType == "stress" then
+        -- sync stress
+    elseif statusType == "hunger" then
+        -- sync hunger (0-100, 100 = full)
+    elseif statusType == "thirst" then
+        -- sync thirst
+    end
+end
+
+-- getHealth, getMaxHealth, getArmor, getMaxArmor are injected from modules/fw/shared/pedStatus.lua
+
 -- Returns the local player's character data
 function fw.getPlayerData()
     return exports.my_framework:GetPlayerData()
@@ -120,7 +145,15 @@ function fw.getJob()
     return data and data.job
 end
 
--- ... additional client-side functions ...
+if bridge.name == bridge.currentResource then
+    RegisterNetEvent('YourFramework:Client:OnPlayerLoaded', function()
+        TriggerEvent('prp-bridge:client:playerLoad')
+    end)
+
+    RegisterNetEvent('YourFramework:Client:OnPlayerUnload', function()
+        TriggerEvent('prp-bridge:client:playerUnload')
+    end)
+end
 
 return fw
 ```
@@ -343,6 +376,7 @@ modules/fw/my_framework/
 - [ ] `BridgeConfig` value updated to the exact folder name
 - [ ] Alias in `types/config.lua` updated with the new value
 - [ ] (Optional) New data types added to the relevant files in `types/`
+- [ ] (If targeting prp-hud) Client status getters + `setStatus` + lifecycle events — see [prp-hud Integration](./prp-hud-integration.md)
 
 **Brand new category** (does not exist in `moduleToDependency` yet) - all of the above, plus:
 - [ ] New config key added to `BridgeConfig` in `config.lua`

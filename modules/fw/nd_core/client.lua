@@ -220,4 +220,29 @@ function fw.getCharacterName()
     return player.fullname
 end
 
+if bridge.name == bridge.currentResource then
+    local function emitStatus(statusType, value)
+        TriggerEvent('prp-bridge:client:statusChanged', statusType, value)
+    end
+
+    local function emitAllStatuses()
+        emitStatus('hunger', fw.getHunger())
+        emitStatus('thirst', fw.getThirst())
+        emitStatus('stress', fw.getStress())
+    end
+
+    RegisterNetEvent("ND:characterLoaded", function()
+        TriggerEvent('prp-bridge:client:playerLoad')
+        emitAllStatuses()
+    end)
+
+    RegisterNetEvent("ND:updateCharacter", function()
+        emitAllStatuses()
+    end)
+
+    RegisterNetEvent("ND:characterUnloaded", function()
+        TriggerEvent('prp-bridge:client:playerUnload')
+    end)
+end
+
 return fw

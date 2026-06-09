@@ -15,13 +15,13 @@ if bridge.name == bridge.currentResource then
     RegisterNetEvent("qbx_core:client:onSetMetaData", function(key, _, value)
         if key ~= "isdead" and key ~= "inlaststand" then return end
         if value == true or value == "true" then
-            TriggerServerEvent("prp-bridge:server:revived")
-            TriggerEvent("prp-bridge:client:revived")
+            TriggerServerEvent("prp-bridge:server:died")
+            TriggerEvent("prp-bridge:client:died")
             return
         end
 
-        TriggerServerEvent("prp-bridge:server:died")
-        TriggerEvent("prp-bridge:client:died")
+        TriggerServerEvent("prp-bridge:server:revived")
+        TriggerEvent("prp-bridge:client:revived")
     end)
 end
 

@@ -217,4 +217,30 @@ function fw.getCharacterName()
     return ("%s %s"):format(player.charinfo.firstname, player.charinfo.lastname)
 end
 
+if bridge.name == bridge.currentResource then
+    local function emitStatus(statusType, value)
+        TriggerEvent('prp-bridge:client:statusChanged', statusType, value)
+    end
+
+    local function emitAllStatuses()
+        emitStatus('hunger', fw.getHunger())
+        emitStatus('thirst', fw.getThirst())
+        emitStatus('stress', fw.getStress())
+    end
+
+    RegisterNetEvent('QBCore:Client:OnPlayerLoaded', function()
+        TriggerEvent('prp-bridge:client:playerLoad')
+        emitAllStatuses()
+    end)
+
+    RegisterNetEvent('QBCore:Client:OnPlayerUnload', function(src)
+        TriggerEvent('prp-bridge:client:playerUnload', src)
+    end)
+
+    AddEventHandler('QBCore:Player:SetPlayerData', function()
+        Wait(100)
+        emitAllStatuses()
+    end)
+end
+
 return fw

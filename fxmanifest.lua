@@ -54,6 +54,7 @@ escrow_ignore {
 
 files {
     "modules/**/client.lua",
+    "modules/fw/shared/*.lua",
     "locales/*.json",
     "ui/**/*",
     "sounds/*.ogg",

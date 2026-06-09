@@ -114,6 +114,13 @@ BridgeConfig.VehicleFuel = "ox_fuel"
 ---@type AvailableMinigames
 BridgeConfig.Minigames = "prp-minigames"
 
+--[[
+    Available Voice systems:
+        - pma-voice
+]]
+---@type AvailableVoice
+BridgeConfig.Voice = "pma-voice"
+
 ---@type { CommandEnabled: boolean, CommandName: string }
 BridgeConfig.Group = {
     CommandEnabled = true,

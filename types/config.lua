@@ -14,6 +14,16 @@
 
 ---@alias AvailableMinigames 'prp-minigames'
 
+---@alias AvailableVoice 'pma-voice'
+
+---@class VoiceHudData
+---@field connected boolean
+---@field isTalking boolean
+---@field radioTalking boolean
+---@field volume number
+---@field volumeCount number
+---@field indicator string
+
 ---@alias AvailableVehicleKeys 'cd_garage' | 'mVehicle' | 'okokGarage' | 'qb-vehiclekeys' | 'qbx_vehiclekeys' | 'vehicles_keys' | 'wasabi_carlock' | 'nd_core' | 'mrnewbvehiclekeys' | 'Renewed-Vehiclekeys'
 
 ---@alias VehicleClasses 'X' | 'S' | 'A' | 'B' | 'C' | 'D' | 'E' | 'EV1' | 'EV2'
