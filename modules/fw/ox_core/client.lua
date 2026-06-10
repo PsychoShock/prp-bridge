@@ -174,7 +174,7 @@ function fw.showContext(contextId)
 end
 
 function fw.isOnDuty()
-    return true
+    return getPlayer()?.get("activeGroup") ~= nil
 end
 
 ---@param job string
@@ -196,8 +196,8 @@ function fw.hasJob(job, grade, duty)
         return false
     end
 
-    if duty then
-        return fw.isOnDuty()
+    if duty and oxPlayer.get("activeGroup") ~= job then
+        return false
     end
 
     return true

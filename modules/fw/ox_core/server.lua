@@ -251,13 +251,18 @@ function fw.allowExplosion(explosionType, time)
 end
 
 ---@param src number | string
----@param moneyType "cash" | "bank" | "crypto"
+---@param moneyType "cash" | "bank"
 ---@param moneyAmount number
 ---@param reason string | nil
 ---@return boolean
 function fw.addMoney(src, moneyType, moneyAmount, reason)
     if moneyType == "cash" then
         return inventoryMoney(src, "add", moneyAmount)
+    end
+
+    if moneyType ~= "bank" then
+        lib.print.error(("ox_core does not support money type '%s' (use 'cash' or 'bank')"):format(tostring(moneyType)))
+        return false
     end
 
     local account = getAccount(src, moneyType)
@@ -274,13 +279,18 @@ function fw.addMoney(src, moneyType, moneyAmount, reason)
 end
 
 ---@param src number | string
----@param moneyType "cash" | "bank" | "crypto"
+---@param moneyType "cash" | "bank"
 ---@param moneyAmount number
 ---@param reason string | nil
 ---@return boolean
 function fw.removeMoney(src, moneyType, moneyAmount, reason)
     if moneyType == "cash" then
         return inventoryMoney(src, "remove", moneyAmount)
+    end
+
+    if moneyType ~= "bank" then
+        lib.print.error(("ox_core does not support money type '%s' (use 'cash' or 'bank')"):format(tostring(moneyType)))
+        return false
     end
 
     local account = getAccount(src, moneyType)
@@ -297,11 +307,16 @@ function fw.removeMoney(src, moneyType, moneyAmount, reason)
 end
 
 ---@param src number | string
----@param moneyType "cash" | "bank" | "crypto"
+---@param moneyType "cash" | "bank"
 ---@return number
 function fw.getMoney(src, moneyType)
     if moneyType == "cash" then
         return inventoryMoney(src, "get")
+    end
+
+    if moneyType ~= "bank" then
+        lib.print.error(("ox_core does not support money type '%s' (use 'cash' or 'bank')"):format(tostring(moneyType)))
+        return 0
     end
 
     local account = getAccount(src, moneyType)
@@ -329,6 +344,10 @@ function fw.hasJob(src, job, grade, duty)
     end
 
     if grade and playerGrade < grade then
+        return false
+    end
+
+    if duty and player.get("activeGroup") ~= job then
         return false
     end
 
@@ -459,15 +478,7 @@ function fw.addOwnedVehicle(src, vehicleName)
         return Ox.CreateVehicle({
             model = vehicleName,
             owner = player.charId,
-            stored = DEFAULT_STORED_LOCATION,
-            properties = {
-                model = joaat(vehicleName),
-                plate = Ox.GenerateVehiclePlate(),
-                bodyHealth = 1000,
-                engineHealth = 1000,
-                tankHealth = 1000,
-                fuelLevel = 100
-            }
+            stored = DEFAULT_STORED_LOCATION
         })
     end)
 
