@@ -1,55 +1,46 @@
-require "@ox_core.lib.init"
+local Ox = require "@ox_core.lib.init"
 
 local fw = {}
 
-local player = Ox.GetPlayer()
+local PlayerData = Ox.GetPlayer()
 
 AddEventHandler("ox:playerLoaded", function()
-    player = Ox.GetPlayer()
+    PlayerData = Ox.GetPlayer()
 end)
 
 RegisterNetEvent("ox:setActiveCharacter", function()
-    player = Ox.GetPlayer()
+    PlayerData = Ox.GetPlayer()
 end)
 
 RegisterNetEvent("ox:setGroup", function()
-    player = Ox.GetPlayer()
+    PlayerData = Ox.GetPlayer()
 end)
 
 AddEventHandler("ox:statusTick", function()
-    player = Ox.GetPlayer()
+    PlayerData = Ox.GetPlayer()
 end)
-
-local function getPlayer()
-    player = player or Ox.GetPlayer()
-    return player
-end
 
 ---@return number
 function fw.getStress()
-    local oxPlayer = getPlayer()
-    return oxPlayer and oxPlayer.getStatus("stress") or 0
+    return PlayerData and PlayerData.getStatus("stress") or 0
 end
 
 ---@return number
 function fw.getHunger()
-    local oxPlayer = getPlayer()
-    return oxPlayer and oxPlayer.getStatus("hunger") or 100
+    return PlayerData and PlayerData.getStatus("hunger") or 100
 end
 
 ---@return number
 function fw.getThirst()
-    local oxPlayer = getPlayer()
-    return oxPlayer and oxPlayer.getStatus("thirst") or 100
+    return PlayerData and PlayerData.getStatus("thirst") or 100
 end
 
 ---@param statusType string
 ---@param value number
 function fw.setStatus(statusType, value)
-    local oxPlayer = getPlayer()
-    if not oxPlayer then return end
+    if not PlayerData then return end
 
-    oxPlayer.setStatus(statusType, value)
+    PlayerData.setStatus(statusType, value)
 end
 
 function fw.applyBuff(buff, data)
@@ -174,7 +165,7 @@ function fw.showContext(contextId)
 end
 
 function fw.isOnDuty()
-    return getPlayer()?.get("activeGroup") ~= nil
+    return PlayerData and PlayerData.get("activeGroup") ~= nil
 end
 
 ---@param job string
@@ -182,12 +173,11 @@ end
 ---@param duty boolean? do they need to be on duty
 ---@return boolean
 function fw.hasJob(job, grade, duty)
-    local oxPlayer = getPlayer()
-    if not oxPlayer then
+    if not PlayerData then
         return false
     end
 
-    local playerGrade = oxPlayer.getGroup(job)
+    local playerGrade = PlayerData.getGroup(job)
     if not playerGrade then
         return false
     end
@@ -196,7 +186,7 @@ function fw.hasJob(job, grade, duty)
         return false
     end
 
-    if duty and oxPlayer.get("activeGroup") ~= job then
+    if duty and PlayerData.get("activeGroup") ~= job then
         return false
     end
 
@@ -205,18 +195,17 @@ end
 
 ---@return string?
 function fw.getIdentifier()
-    return getPlayer()?.stateId
+    return PlayerData?.stateId
 end
 
 ---@return string?
 function fw.getCharacterName()
-    local oxPlayer = getPlayer()
-    if not oxPlayer then
+    if not PlayerData then
         return nil
     end
 
-    local firstName = oxPlayer.get("firstName") or oxPlayer.get("firstname")
-    local lastName = oxPlayer.get("lastName") or oxPlayer.get("lastname")
+    local firstName = PlayerData.get("firstName") or PlayerData.get("firstname")
+    local lastName = PlayerData.get("lastName") or PlayerData.get("lastname")
 
     if not firstName or not lastName then
         return nil

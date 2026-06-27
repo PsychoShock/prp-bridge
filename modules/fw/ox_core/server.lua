@@ -1,4 +1,4 @@
-require "@ox_core.lib.init"
+local Ox = require "@ox_core.lib.init"
 
 local DEFAULT_STORED_LOCATION <const> = "motelgarage"
 local fw = {}
