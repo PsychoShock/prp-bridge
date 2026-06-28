@@ -1,6 +1,6 @@
 ---@meta
 
----@alias AvailableFrameworks 'qbx_core' | 'qb-core' | 'es_extended' | 'nd_core'
+---@alias AvailableFrameworks 'qbx_core' | 'qb-core' | 'es_extended' | 'nd_core' | 'ox_core'
 
 ---@alias AvailableInventories 'ox_inventory' | 'origen_inventory' | 'tgiann-inventory'
 
