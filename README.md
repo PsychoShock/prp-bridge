@@ -308,19 +308,6 @@ Registers locations where players can sell items. Internally uses an inventory s
 
 ---
 
-### sounds
-
-Client-side playback of `.ogg` audio files. Available through the unified bridge API:
-
-```lua
-bridge.sound.play(soundName, volume?)
-bridge.sound.playSpatial(soundName, coords, volume?, maxDistance?)
-```
-
-Place audio files in the `sounds/` folder as `*.ogg`.
-
----
-
 ### uniqueue
 
 Queues players (or groups) for structured activities, enforces police presence requirements, and manages priorities.

@@ -27,7 +27,8 @@ function appearance.getPedAppearance(ped)
 end
 
 ---@param isNew? boolean
-function appearance.openCreator(isNew)
+---@param onClose? fun(appearance: table|nil)
+function appearance.openCreator(isNew, onClose)
     local config = {
         ped = true,
         headBlend = true,
@@ -40,8 +41,13 @@ function appearance.openCreator(isNew)
     }
 
     exports["fivem-appearance"]:startPlayerCustomization(function(result)
-        if not result then return end
-        TriggerServerEvent("prp-bridge:appearance:save", result)
+        if result then
+            TriggerServerEvent("prp-bridge:appearance:save", result)
+        end
+
+        if onClose then
+            onClose(result)
+        end
     end, config)
 end
 

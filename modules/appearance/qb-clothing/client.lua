@@ -22,12 +22,22 @@ function appearance.getPedAppearance(ped)
 end
 
 ---@param isNew? boolean
-function appearance.openCreator(isNew)
+---@param onClose? fun(appearance: table|nil)
+function appearance.openCreator(isNew, onClose)
     if isNew then
         TriggerEvent("qb-clothes:client:CreateFirstCharacter")
         return
     end
     TriggerEvent("qb-clothing:client:openMenu")
+    if onClose then
+        CreateThread(function()
+            Wait(500)
+            while IsNuiFocused() do
+                Wait(200)
+            end
+            onClose(nil)
+        end)
+    end
 end
 
 return appearance

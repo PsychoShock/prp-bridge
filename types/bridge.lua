@@ -438,7 +438,8 @@ function bridge.appearance.getPedAppearance(ped) end
 
 ---**`client`**
 ---@param isNew? boolean
-function bridge.appearance.openCreator(isNew) end
+---@param onClose? fun(appearance: table|nil)
+function bridge.appearance.openCreator(isNew, onClose) end
 
 bridge.minigames = {}
 

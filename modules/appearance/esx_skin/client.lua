@@ -27,9 +27,16 @@ function appearance.getPedAppearance(ped)
 end
 
 ---@param isNew? boolean
-function appearance.openCreator(isNew)
+---@param onClose? fun(appearance: table|nil)
+function appearance.openCreator(isNew, onClose)
     TriggerEvent("esx_skin:openSaveableMenu", function()
+        if onClose then
+            onClose(true)
+        end
     end, function()
+        if onClose then
+            onClose(nil)
+        end
     end)
 end
 
